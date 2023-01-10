@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct CardView: View {
-    let content: String
-    @State private var isFaceUp: Bool = false
+    private let card: EmojiMemoryGame.Card
+    
+    init(_ card: EmojiMemoryGame.Card) {
+        self.card = card
+    }
     
     var body: some View {
         GeometryReader { geo in
             ZStack {
                 let shape = RoundedRectangle(cornerRadius: 20)
                 
-                if isFaceUp {
+                if card.isFaceUp {
                     shape.fill().foregroundColor(.white)
                     shape.strokeBorder(lineWidth: 3)
                     
-                    Text(content)
+                    Text(card.content)
                         .font(.largeTitle)
-                        .frame(height: geo.size.height)
+                        .frame(width: geo.size.width, height: geo.size.height)
                 }
                 else {
                     shape.fill()
                 }
-            }
-            .onTapGesture {
-                isFaceUp.toggle()
             }
         }
     }
@@ -37,6 +37,7 @@ struct CardView: View {
 
 struct CardView_Previews: PreviewProvider {
     static var previews: some View {
-        CardView(content: "🚗")
+        let card = EmojiMemoryGame.Card(content: "✈️")
+        CardView(card)
     }
 }
